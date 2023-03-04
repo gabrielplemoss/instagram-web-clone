@@ -1,0 +1,57 @@
+.container {
+	max-width: 350px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.containerLogo {
+	max-width: 180px;
+	margin: auto;
+}
+
+.containerForm {
+	padding: 20px 40px 40px;
+	border: 1px solid var(--border-grey);
+	margin-bottom: 10px;
+	border-radius: 3px;
+}
+
+.formTitle {
+	display: block;
+	text-align: center;
+	margin-bottom: 30px;
+	font-size: 20px;
+	color: var(--text-grey-0);
+	font-weight: 600;
+}
+
+.containerSignin {
+	width: 100%;
+	border: 1px solid var(--border-grey);
+	border-radius: 3px;
+	align-items: center;
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+	padding: 25px 0px;
+}
+
+.containerSignin a {
+	color: var(--blue-primary);
+}
+
+@media (max-width: 450px){
+	.containerForm {
+		border: none;
+	}
+
+	.containerSignin {
+		border: none;
+	}
+}

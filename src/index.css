@@ -1,0 +1,21 @@
+:root {
+	--border-grey: #dbdbdb;
+	--text-grey-0: #8e8e8e;
+	--blue-primary: #0095f6;
+	--blue-secondary: #4cb4f8;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  max-width: 100%
+}
+
+a {
+	text-decoration: none;
+}

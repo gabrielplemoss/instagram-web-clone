@@ -1,7 +1,9 @@
+import Signup from './pages/Signup'
+
 function App() {
   return (
     <div className="App">
-      <h1>instagram</h1>
+      <Signup />
     </div>
   )
 }
