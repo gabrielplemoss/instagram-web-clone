@@ -1,10 +1,11 @@
-import Signup from './pages/Signup'
+import { BrowserRouter } from 'react-router-dom'
+import RoutesApp from './RoutesApp'
 
 function App() {
   return (
-    <div className="App">
-      <Signup />
-    </div>
+		<BrowserRouter>
+			<RoutesApp />
+		</BrowserRouter>
   )
 }
 
