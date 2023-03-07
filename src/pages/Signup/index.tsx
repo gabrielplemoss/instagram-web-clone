@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import logo from '../../assets/Instagram-logo.png'
 
@@ -25,7 +26,7 @@ const Signup: React.FC = () => {
       </div>
       <div className={styles.containerSignin}>
         <p>
-          Tem uma conta ? <a href="#">Conecte-se</a>
+          Tem uma conta ? <Link to="/">Conecte-se</Link>
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { EffectCallback, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import logo from '../../assets/Instagram-logo.png'
 
@@ -50,7 +51,7 @@ const Signin: React.FC = () => {
         </div>
         <div className={styles.containerSignup}>
           <p>
-            Não tem uma conta? <a href="#">Cadastre-se</a>
+            Não tem uma conta? <Link to="/signup">Cadastre-se</Link>
           </p>
         </div>
       </div>
