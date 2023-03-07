@@ -1,0 +1,95 @@
+.smallContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	padding: 30px 30px 0px 0px;
+}
+
+.container {
+	max-width: 350px;
+	flex: 1;
+}
+
+.containerLogo {
+	max-width: 180px;
+	margin: auto;
+}
+
+.containerForm {
+	padding: 20px 40px 40px;
+	border: 1px solid var(--border-grey);
+	margin-bottom: 10px;
+	border-radius: 3px;
+	width: 100%;
+}
+
+.formTitle {
+	display: block;
+	text-align: center;
+	margin-bottom: 30px;
+	font-size: 20px;
+	color: var(--text-grey-0);
+	font-weight: 600;
+}
+
+.containerSignup {
+	width: 100%;
+	border: 1px solid var(--border-grey);
+	border-radius: 3px;
+	align-items: center;
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+	padding: 25px 0px;
+}
+
+.containerSignup a {
+	color: var(--blue-primary);
+}
+
+.division {
+	display: flex;
+	text-align: center;
+	align-items: center;
+	margin: 18px 5px 30px;
+}
+
+.division::after,
+.division::before {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 2px;
+	background: var(--border-grey)
+}
+
+.division p {
+	margin: 0px 10px;
+	color: var(--text-grey-0);
+	font-size: 13px;
+	text-transform: uppercase;
+}
+
+.forgotPassword {
+	display: block;
+	font-size: 14px;
+	text-align: center;
+	color: var(--blue-third);
+}
+
+@media (max-width: 450px) {
+	.smallContainer {
+		padding: 0;
+	}
+
+	.containerForm {
+		border: none;
+	}
+
+	.containerSignup {
+		border: none;
+	}
+}

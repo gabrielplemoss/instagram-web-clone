@@ -1,0 +1,21 @@
+.slideContainer {
+	flex: 1;
+	background: url(/src/assets/home-phones.png) no-repeat;
+	background-size: contain;
+	max-width: 450px;
+	aspect-ratio: 0.78;
+	height: fit-content;
+}
+
+.slideContainerImg {
+	padding-top: 5.3%;
+	padding-left: 31.6%;
+	padding-bottom: 13.8%;
+	aspect-ratio: 0.78;
+}
+
+@media (max-width: 875px) {
+	.slideContainer {
+		display: none;
+	}
+}
