@@ -4,14 +4,17 @@ import logo from '../../assets/Instagram-logo.png'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import Slide from './components/Slide'
-import { useForm, SigninForm } from '../../hooks/useForm'
+import { useForm, SigninForm, FormError } from '../../hooks/useForm'
 import validators from '../../validation/validators'
 import styles from './styles.module.css'
 
 const Signin: React.FC = () => {
   const [showSlide, setshowSlide] = React.useState(true)
   const [submitDisabled, setSubmitDisabled] = useState(true)
-  const [formErro, setFormErro] = useState<string[]>([])
+  const [formError, setFormError] = useState<FormError>({
+    valid: [],
+    invalid: []
+  })
   const [form, setForm] = useState<SigninForm>({
     login: '',
     password: '',
@@ -22,7 +25,7 @@ const Signin: React.FC = () => {
     setForm,
     setSubmitDisabled,
     validators,
-    setFormErro
+    setFormError
   })
 
   useEffect((): ReturnType<EffectCallback> => {
@@ -52,8 +55,8 @@ const Signin: React.FC = () => {
             <img src={logo} alt="logo" />
           </div>
           <form method="post">
-            <Input {...formHook} required type="text" name="login" labelText="nome de usuario ou email" />
-            <Input {...formHook} required type="password" name="password" labelText="senha" />
+            <Input {...formHook} formError={formError} required type="text" name="login" labelText="nome de usuario ou email" />
+            <Input {...formHook} formError={formError} required type="password" name="password" labelText="senha" />
             <Button disabled={submitDisabled} text="entrar" />
           </form>
           <div className={styles.division}>

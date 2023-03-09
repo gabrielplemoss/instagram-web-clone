@@ -14,6 +14,11 @@ interface SigninForm {
 
 type FormFields = SignupForm | SigninForm
 
+interface FormError {
+	valid: string[]
+	invalid: string[]
+}
+
 interface Validators {
 	usernameValidator: (username: string) => boolean
 	emailValidator: (email: string) => boolean
@@ -27,7 +32,7 @@ interface UseFormParams<T> {
 	setForm: React.Dispatch<React.SetStateAction<T>>
 	setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>
 	validators: Validators
-	setFormErro: React.Dispatch<React.SetStateAction<string[]>>
+	setFormError: React.Dispatch<React.SetStateAction<FormError>>
 }
 
 interface UseFormReturn {
@@ -36,7 +41,7 @@ interface UseFormReturn {
 	onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void
 }
 
-function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormErro }: UseFormParams<T>): UseFormReturn {
+function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormError }: UseFormParams<T>): UseFormReturn {
 	let oldForm = form
 
 	function switchFormValidation(form: any, field: string): boolean | undefined {
@@ -82,24 +87,44 @@ function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormErro 
 
 	function onFocus(event: React.FocusEvent<HTMLInputElement, Element>): void {
 		const inputName = event.target.name
-		setFormErro((oldError) => {
-			const newErro: string[] = []
-			oldError.forEach((value) => {
-				if (value !== inputName) {
-					newErro.push(value)
-				}
-			})
-
-			return newErro
+		setFormError(({ invalid, valid }) => {
+			const index = invalid.indexOf(inputName)
+			if (index !== -1) {
+				invalid.splice(index, 1)
+			}
+			return {
+				invalid,
+				valid
+			}
 		})
 	}
 
 	function onBlur(event: React.FocusEvent<HTMLInputElement, Element>): void {
 		const inputName = event.target.name
 		const validation = switchFormValidation(form, inputName)
-		if (!validation) {
-			setFormErro(oldError => [...oldError, inputName])
-		}
+		setFormError(({ invalid, valid }) => {
+			if (!validation) {
+				if (!invalid.includes(inputName)) {
+					invalid.push(inputName)
+				}
+				if (valid.includes(inputName)) {
+					const index = valid.indexOf(inputName)
+					valid.splice(index, 1)
+				}
+			} else if (validation) {
+				if (!valid.includes(inputName)) {
+					valid.push(inputName)
+				}
+				if (invalid.includes(inputName)) {
+					const index = invalid.indexOf(inputName)
+					invalid.splice(index, 1)
+				}
+			}
+			return {
+				valid,
+				invalid
+			}
+		})
 	}
 
 	return {
@@ -113,5 +138,6 @@ export {
 	useForm,
 	type FormFields,
 	type SignupForm,
-	type SigninForm
+	type SigninForm,
+	type FormError
 }

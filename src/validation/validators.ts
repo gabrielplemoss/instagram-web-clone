@@ -13,7 +13,8 @@ function passwordLengthValidator(password: string): boolean {
 }
 
 function compareFieldsValidator(password: string, passwordConfirmation: string): boolean {
-  return password === passwordConfirmation
+  const lengthOk = passwordLengthValidator(password)
+  return password === passwordConfirmation && lengthOk
 }
 
 function loginValidator(login: string): boolean {
