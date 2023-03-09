@@ -1,22 +1,30 @@
 import React from 'react'
 
-interface FormFields {
+interface SignupForm {
 	username: string
 	email: string
 	password: string
 	passwordConfirmation: string
 }
 
+interface SigninForm {
+	login: string
+	password: string
+}
+
+type FormFields = SignupForm | SigninForm
+
 interface Validators {
 	usernameValidator: (username: string) => boolean
 	emailValidator: (email: string) => boolean
 	passwordLengthValidator: (password: string) => boolean
 	compareFieldsValidator: (password: string, passwordConfirmation: string) => boolean
+	loginValidator: (login: string) => boolean
 }
 
-interface UseFormParams {
+interface UseFormParams<T> {
 	form: FormFields
-	setform: React.Dispatch<React.SetStateAction<FormFields>>
+	setForm: React.Dispatch<React.SetStateAction<T>>
 	setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>
 	validators: Validators
 	setFormErro: React.Dispatch<React.SetStateAction<string[]>>
@@ -28,10 +36,10 @@ interface UseFormReturn {
 	onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void
 }
 
-function useForm({ form, setform, setSubmitDisabled, validators, setFormErro }: UseFormParams): UseFormReturn {
+function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormErro }: UseFormParams<T>): UseFormReturn {
 	let oldForm = form
 
-	function switchFormValidation(form: FormFields, field: string): boolean | undefined {
+	function switchFormValidation(form: any, field: string): boolean | undefined {
 		switch (field) {
 			case 'username':
 				return validators.usernameValidator(form.username)
@@ -41,6 +49,8 @@ function useForm({ form, setform, setSubmitDisabled, validators, setFormErro }: 
 				return validators.passwordLengthValidator(form.password)
 			case 'passwordConfirmation':
 				return validators.compareFieldsValidator(form.password, form.passwordConfirmation)
+			case 'login':
+				return validators.loginValidator(form.login)
 		}
 	}
 
@@ -65,7 +75,7 @@ function useForm({ form, setform, setSubmitDisabled, validators, setFormErro }: 
 		if (!enableSubmit) {
 			setSubmitDisabled(false)
 		} else {
-			setform(oldForm)
+			setForm(oldForm as T)
 			setSubmitDisabled(true)
 		}
 	}
@@ -101,5 +111,7 @@ function useForm({ form, setform, setSubmitDisabled, validators, setFormErro }: 
 
 export {
 	useForm,
-	type FormFields
+	type FormFields,
+	type SignupForm,
+	type SigninForm
 }

@@ -1,17 +1,29 @@
-import React, { EffectCallback, useEffect } from 'react'
+import React, { EffectCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
 import logo from '../../assets/Instagram-logo.png'
-
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import Slide from './components/Slide'
-
+import { useForm, SigninForm } from '../../hooks/useForm'
+import validators from '../../validation/validators'
 import styles from './styles.module.css'
 
 const Signin: React.FC = () => {
   const [showSlide, setshowSlide] = React.useState(true)
+  const [submitDisabled, setSubmitDisabled] = useState(true)
+  const [formErro, setFormErro] = useState<string[]>([])
+  const [form, setForm] = useState<SigninForm>({
+    login: '',
+    password: '',
+  })
   const maxWidthQuery = 875
+  const formHook = useForm<SigninForm>({
+    form,
+    setForm,
+    setSubmitDisabled,
+    validators,
+    setFormErro
+  })
 
   useEffect((): ReturnType<EffectCallback> => {
     const mediaQueryEvent = window.matchMedia('(max-width: 875px)')
@@ -40,9 +52,9 @@ const Signin: React.FC = () => {
             <img src={logo} alt="logo" />
           </div>
           <form method="post">
-            <Input required type="text" id='username' labelText='nome de usuario ou email' />
-            <Input required type="password" id='password' labelText='senha' />
-            <Button disabled text="entrar" />
+            <Input {...formHook} required type="text" name="login" labelText="nome de usuario ou email" />
+            <Input {...formHook} required type="password" name="password" labelText="senha" />
+            <Button disabled={submitDisabled} text="entrar" />
           </form>
           <div className={styles.division}>
             <p>ou</p>

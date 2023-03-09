@@ -3,23 +3,22 @@ import { Link } from 'react-router-dom'
 import logo from '../../assets/Instagram-logo.png'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
-import { useForm, FormFields } from '../../hooks/useForm'
+import { useForm, SignupForm } from '../../hooks/useForm'
 import validators from '../../validation/validators'
 import styles from './styles.module.css'
 
 const Signup: React.FC = () => {
   const [submitDisabled, setSubmitDisabled] = useState(true)
   const [formErro, setFormErro] = useState<string[]>([])
-  const [form, setform] = useState<FormFields>({
+  const [form, setForm] = useState<SignupForm>({
     username: '',
     email: '',
     password: '',
     passwordConfirmation: ''
   })
-
-  const formHook = useForm({
+  const formHook = useForm<SignupForm>({
     form,
-    setform,
+    setForm,
     setSubmitDisabled,
     validators,
     setFormErro
@@ -33,10 +32,10 @@ const Signup: React.FC = () => {
         </div>
         <form method="post">
           <span className={styles.formTitle}>Cadastre-se para ver fotos e vídeos dos seus amigos.</span>
-          <Input {...formHook} required type="text" name='username' labelText='nome de usuario' />
-          <Input {...formHook} required type="text" name='email' labelText='email' />
-          <Input {...formHook} required type="password" name='password' labelText='senha' />
-          <Input {...formHook} required type="password" name='passwordConfirmation' labelText='confirmação de senha' />
+          <Input {...formHook} required type="text" name="username" labelText="nome de usuario" />
+          <Input {...formHook} required type="text" name="email" labelText="email" />
+          <Input {...formHook} required type="password" name="password" labelText="senha" />
+          <Input {...formHook} required type="password" name="passwordConfirmation" labelText="confirmação de senha" />
           <Button disabled={submitDisabled} text="cadastrar-se" />
         </form>
       </div>

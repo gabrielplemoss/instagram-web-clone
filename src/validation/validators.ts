@@ -16,9 +16,16 @@ function compareFieldsValidator(password: string, passwordConfirmation: string):
   return password === passwordConfirmation
 }
 
+function loginValidator(login: string): boolean {
+  const isEmailValid = emailValidator(login)
+  const isUsernameValid = usernameValidator(login)
+  return isEmailValid || isUsernameValid
+}
+
 export default {
   emailValidator,
   usernameValidator,
   passwordLengthValidator,
-  compareFieldsValidator
+  compareFieldsValidator,
+  loginValidator
 }
