@@ -1,4 +1,5 @@
-import React, { EffectCallback, useEffect, useState } from 'react'
+import React, { EffectCallback, useEffect, useState, useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/Instagram-logo.png'
 import Input from '../../components/Input'
@@ -10,6 +11,7 @@ import styles from './styles.module.css'
 
 const Signin: React.FC = () => {
   const [showSlide, setshowSlide] = React.useState(true)
+  const [signinFails, setSigninFails] = useState<any>('')
   const [submitDisabled, setSubmitDisabled] = useState(true)
   const [formError, setFormError] = useState<FormError>({
     valid: [],
@@ -27,6 +29,7 @@ const Signin: React.FC = () => {
     validators,
     setFormError
   })
+  const { signin } = useContext(AuthContext)
 
   useEffect((): ReturnType<EffectCallback> => {
     const mediaQueryEvent = window.matchMedia('(max-width: 875px)')
@@ -46,6 +49,19 @@ const Signin: React.FC = () => {
     }
   }, [])
 
+   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    try {
+      await signin({
+        login: form.login,
+        password: form.password
+      })
+    } catch (error: any) {
+      const response = error.response
+      setSigninFails(response.data.error)
+    }
+  }
+
   return (
     <div className={styles.smallContainer}>
       {showSlide && <Slide />}
@@ -54,7 +70,7 @@ const Signin: React.FC = () => {
           <div className={styles.containerLogo}>
             <img src={logo} alt="logo" />
           </div>
-          <form method="post">
+          <form noValidate onSubmit={handleSubmit}>
             <Input {...formHook} formError={formError} required type="text" name="login" labelText="nome de usuario ou email" />
             <Input {...formHook} formError={formError} required type="password" name="password" labelText="senha" />
             <Button disabled={submitDisabled} text="entrar" />

@@ -11,8 +11,14 @@ interface Signup {
 	password: string
 }
 
+interface Signin {
+	login: string
+	password: string
+}
+
 interface AuthContext {
 	signup: (data: Signup) => Promise<void>
+	signin: (data: Signin) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContext>({} as AuthContext)
@@ -28,8 +34,18 @@ const AuthProvider: React.FC<Children> = ({ children }) => {
 		localStorage.setItem('user', JSON.stringify(response.data.user))
 	}
 
+	async function signin(data: Signin) {
+		const response = await apiPost('/auth/signin', data, {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		localStorage.setItem('token', response.data.token)
+		localStorage.setItem('user', JSON.stringify(response.data.user))
+	}
+
 	return (
-		<AuthContext.Provider value={{ signup }} >
+		<AuthContext.Provider value={{ signup, signin }} >
 			{children}
 		</AuthContext.Provider>
 	)
