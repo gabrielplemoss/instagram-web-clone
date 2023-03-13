@@ -1,0 +1,10 @@
+.container {
+	text-align: center;
+	margin-top: 22px;
+}
+
+.container p {
+	font-style: italic;
+	font-size: 18px;
+	color: var(--red-error);
+}
