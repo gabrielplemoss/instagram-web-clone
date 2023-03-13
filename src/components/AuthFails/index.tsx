@@ -11,13 +11,20 @@ export interface IAuthFails {
 }
 
 interface IAuthFailsProps {
-	fails: IAuthFails
+	fails: IAuthFails | string
 }
 
 const AuthFails: React.FC<IAuthFailsProps> = ({ fails }) => {
+	let messageError = ''
+	if (typeof fails === 'string') {
+		messageError = fails
+	} else {
+		messageError = fails.fields[0].message
+	}
+
 	return (
 		<div className={styles.container}>
-			<p>{fails.fields[0].message}</p>
+			<p>{messageError}</p>
 		</div>
 	)
 }
