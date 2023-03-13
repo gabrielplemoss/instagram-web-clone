@@ -5,13 +5,14 @@ import logo from '../../assets/Instagram-logo.png'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import Slide from './components/Slide'
+import AuthFails, { IAuthFails } from '../../components/AuthFails'
 import { useForm, SigninForm, FormError } from '../../hooks/useForm'
 import validators from '../../validation/validators'
 import styles from './styles.module.css'
 
 const Signin: React.FC = () => {
   const [showSlide, setshowSlide] = React.useState(true)
-  const [signinFails, setSigninFails] = useState<any>('')
+  const [signinFails, setSigninFails] = useState<IAuthFails | string>('')
   const [submitDisabled, setSubmitDisabled] = useState(true)
   const [formError, setFormError] = useState<FormError>({
     valid: [],
@@ -49,7 +50,7 @@ const Signin: React.FC = () => {
     }
   }, [])
 
-   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     try {
       await signin({
@@ -74,6 +75,7 @@ const Signin: React.FC = () => {
             <Input {...formHook} formError={formError} required type="text" name="login" labelText="nome de usuario ou email" />
             <Input {...formHook} formError={formError} required type="password" name="password" labelText="senha" />
             <Button disabled={submitDisabled} text="entrar" />
+            {signinFails && <AuthFails fails={signinFails} />}
           </form>
           <div className={styles.division}>
             <p>ou</p>
