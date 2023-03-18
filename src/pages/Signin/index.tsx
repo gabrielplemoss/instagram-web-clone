@@ -28,7 +28,8 @@ const Signin: React.FC = () => {
     setForm,
     setSubmitDisabled,
     validators,
-    setFormError
+    setFormError,
+    setAuthFails
   })
   const { signin } = useContext(AuthContext)
 
@@ -58,6 +59,10 @@ const Signin: React.FC = () => {
         password: form.password
       })
     } catch (error: any) {
+      if (error.code === 'ERR_NETWORK'){
+        setAuthFails('Falha de conexão, Tente novamente')
+        return
+      }
       const response = error.response
       setAuthFails(response.data.error)
     }

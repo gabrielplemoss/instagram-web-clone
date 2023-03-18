@@ -11,7 +11,7 @@ import styles from './styles.module.css'
 
 const Signup: React.FC = () => {
   const [submitDisabled, setSubmitDisabled] = useState(false)
-  const [authFails, setAuthFails] = useState<IAuthFails>({} as IAuthFails)
+  const [authFails, setAuthFails] = useState<IAuthFails | string>('')
   const [formError, setFormError] = useState<FormError>({
     valid: [],
     invalid: []
@@ -27,19 +27,24 @@ const Signup: React.FC = () => {
     setForm,
     setSubmitDisabled,
     validators,
-    setFormError
+    setFormError,
+    setAuthFails
   })
   const { signup } = useContext(AuthContext)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     try {
-      const response = await signup({
+      await signup({
         username: form.username,
         email: form.email,
         password: form.password
       })
     } catch (error: any) {
+      if (error.code === 'ERR_NETWORK'){
+        setAuthFails('Falha de conexão, Tente novamente')
+        return
+      }
       const response = error.response
       setAuthFails(response.data.error)
     }
@@ -58,7 +63,7 @@ const Signup: React.FC = () => {
           <Input {...formHook} formError={formError} required type="password" name="password" labelText="senha" />
           <Input {...formHook} formError={formError} required type="password" name="passwordConfirmation" labelText="confirmação de senha" />
           <Button disabled={submitDisabled} text="cadastrar-se" />
-          {authFails.name && <AuthFails fails={authFails} />}
+          {authFails && <AuthFails fails={authFails} />}
         </form>
       </div>
       <div className={styles.containerSignin}>

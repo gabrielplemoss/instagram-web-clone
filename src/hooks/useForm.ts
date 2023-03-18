@@ -1,4 +1,5 @@
 import React from 'react'
+import { IAuthFails } from '../components/AuthFails'
 
 interface SignupForm {
 	username: string
@@ -33,6 +34,7 @@ interface UseFormParams<T> {
 	setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>
 	validators: Validators
 	setFormError: React.Dispatch<React.SetStateAction<FormError>>
+	setAuthFails: React.Dispatch<React.SetStateAction<IAuthFails | string>>
 }
 
 interface UseFormReturn {
@@ -41,7 +43,7 @@ interface UseFormReturn {
 	onBlur: (event: React.FocusEvent<HTMLInputElement, Element>) => void
 }
 
-function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormError }: UseFormParams<T>): UseFormReturn {
+function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormError, setAuthFails }: UseFormParams<T>): UseFormReturn {
 	let oldForm = form
 
 	function switchFormValidation(form: any, field: string): boolean | undefined {
@@ -87,7 +89,8 @@ function useForm<T>({ form, setForm, setSubmitDisabled, validators, setFormError
 
 	function onFocus(event: React.FocusEvent<HTMLInputElement, Element>): void {
 		const inputName = event.target.name
-		setFormError(({ invalid, valid }) => {
+		setAuthFails('')
+		setFormError(({ invalid, valid }: any) => {
 			const index = invalid.indexOf(inputName)
 			if (index !== -1) {
 				invalid.splice(index, 1)
