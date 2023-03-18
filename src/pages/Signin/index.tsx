@@ -53,12 +53,14 @@ const Signin: React.FC = () => {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setSubmitDisabled(true)
     try {
       await signin({
         login: form.login,
         password: form.password
       })
     } catch (error: any) {
+      setSubmitDisabled(false)
       if (error.code === 'ERR_NETWORK'){
         setAuthFails('Falha de conexão, Tente novamente')
         return

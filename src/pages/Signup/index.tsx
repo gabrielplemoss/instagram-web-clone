@@ -10,7 +10,7 @@ import validators from '../../validation/validators'
 import styles from './styles.module.css'
 
 const Signup: React.FC = () => {
-  const [submitDisabled, setSubmitDisabled] = useState(false)
+  const [submitDisabled, setSubmitDisabled] = useState(true)
   const [authFails, setAuthFails] = useState<IAuthFails | string>('')
   const [formError, setFormError] = useState<FormError>({
     valid: [],
@@ -34,6 +34,7 @@ const Signup: React.FC = () => {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setSubmitDisabled(true)
     try {
       await signup({
         username: form.username,
@@ -41,6 +42,7 @@ const Signup: React.FC = () => {
         password: form.password
       })
     } catch (error: any) {
+      setSubmitDisabled(false)
       if (error.code === 'ERR_NETWORK'){
         setAuthFails('Falha de conexão, Tente novamente')
         return
