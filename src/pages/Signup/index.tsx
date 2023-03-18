@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import logo from '../../assets/Instagram-logo.png'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
-import AuthFails, {IAuthFails} from '../../components/AuthFails'
+import AuthFails, { IAuthFails } from '../../components/AuthFails'
 import { useForm, SignupForm, FormError } from '../../hooks/useForm'
 import validators from '../../validation/validators'
 import styles from './styles.module.css'
 
 const Signup: React.FC = () => {
   const [submitDisabled, setSubmitDisabled] = useState(false)
-  const [signupFails, setSignupFails] = useState<IAuthFails>({} as IAuthFails)
+  const [authFails, setAuthFails] = useState<IAuthFails>({} as IAuthFails)
   const [formError, setFormError] = useState<FormError>({
     valid: [],
     invalid: []
@@ -41,7 +41,7 @@ const Signup: React.FC = () => {
       })
     } catch (error: any) {
       const response = error.response
-      setSignupFails(response.data.error)
+      setAuthFails(response.data.error)
     }
   }
 
@@ -58,7 +58,7 @@ const Signup: React.FC = () => {
           <Input {...formHook} formError={formError} required type="password" name="password" labelText="senha" />
           <Input {...formHook} formError={formError} required type="password" name="passwordConfirmation" labelText="confirmação de senha" />
           <Button disabled={submitDisabled} text="cadastrar-se" />
-          {signupFails.name && <AuthFails fails={signupFails}/>}
+          {authFails.name && <AuthFails fails={authFails} />}
         </form>
       </div>
       <div className={styles.containerSignin}>

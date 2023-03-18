@@ -12,7 +12,7 @@ import styles from './styles.module.css'
 
 const Signin: React.FC = () => {
   const [showSlide, setshowSlide] = React.useState(true)
-  const [signinFails, setSigninFails] = useState<IAuthFails | string>('')
+  const [authFails, setAuthFails] = useState<IAuthFails | string>('')
   const [submitDisabled, setSubmitDisabled] = useState(true)
   const [formError, setFormError] = useState<FormError>({
     valid: [],
@@ -59,7 +59,7 @@ const Signin: React.FC = () => {
       })
     } catch (error: any) {
       const response = error.response
-      setSigninFails(response.data.error)
+      setAuthFails(response.data.error)
     }
   }
 
@@ -75,7 +75,7 @@ const Signin: React.FC = () => {
             <Input {...formHook} formError={formError} required type="text" name="login" labelText="nome de usuario ou email" />
             <Input {...formHook} formError={formError} required type="password" name="password" labelText="senha" />
             <Button disabled={submitDisabled} text="entrar" />
-            {signinFails && <AuthFails fails={signinFails} />}
+            {authFails && <AuthFails fails={authFails} />}
           </form>
           <div className={styles.division}>
             <p>ou</p>
